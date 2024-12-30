@@ -26,16 +26,37 @@ export function setupPicker(id) {
       picker.on('view', (evt) => {
         const { view, date, target } = evt.detail
         const d = date ? date.format('YYYY-MM-DD') : null
+        const span = getSpan(target)
 
-        if (view === 'CalendarDay' && availabilities[d]) {
-          const span = target.querySelector('.day-price') || document.createElement('span')
-          span.className = 'day-price border border-red-400'
-          span.innerHTML = `$ ${availabilities[d]}`
-          target.append(span)
+        const dayData = availabilities.get(d);
+        if (view === 'CalendarDay' && dayData) {
+          span.innerHTML = `$ ${availabilities.get(d).price}`
+          if (dayData.price_position === "high") {
+            span.style.color = "red"
+          } else {
+            span.style.color = null
+          }
         }
       });
     }
   }
 
   return new easepick.create(PICKER_CONFIG);
+}
+
+/**
+ * Either returns the existing span or creates a new one
+ */
+function getSpan(target) {
+  const span = target.querySelector('.day-price')
+  if (span) {
+    return span
+  }
+
+  const newSpan = `
+    <span class="day-price"></span>
+  `
+
+  target.insertAdjacentHTML('beforeend', newSpan)
+  return target.querySelector('.day-price')
 }
