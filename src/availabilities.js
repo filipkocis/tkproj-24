@@ -13,8 +13,9 @@ class Availabilities {
 
     const data = await fetchHotelData()
     for (const item of data) {
-      this.#data.set(item.data, item)
+      this.#data.set(item.date, item)
     }
+
     this.loaded = true
   }
 
