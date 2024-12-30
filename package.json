@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@easepick/bundle": "^1.2.1",
-    "@easepick/core": "^1.2.1"
+    "@easepick/core": "^1.2.1",
+    "@easepick/range-plugin": "^1.2.1"
   }
 }
