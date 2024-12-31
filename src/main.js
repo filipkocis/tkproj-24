@@ -34,6 +34,10 @@ function loadFirstView() {
 
     picker.off("select", listener)
     window.removeEventListener('resize', centerPicker)
+
+    setTimeout(() => {
+      overlay.remove() 
+    }, 1000)
   };
   picker.on("select", listener)
 }
