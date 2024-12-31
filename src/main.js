@@ -15,7 +15,7 @@ function loadFirstView() {
   window.addEventListener('resize', centerPicker)
   centerPicker()
 
-  // event listener for first selection
+  // setup easepick
   const picker = setupPicker('#picker')
 
   // add event listeners

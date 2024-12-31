@@ -25,7 +25,7 @@ export function pickerComponent(width, height, fontSize = 20) {
 }
 
 /**
- * Returns HTML for the picker component
+ * Returns HTML for the overlay component
  */
 export function overlayComponent() {
   return `
