@@ -1,16 +1,21 @@
-import { easepick } from "@easepick/bundle";
-import { RangePlugin } from '@easepick/range-plugin';
-
+import { LockPlugin, RangePlugin, easepick } from "@easepick/bundle";
 import { availabilities } from "./availabilities";
+import { updateRooms, updateSelectedRange } from "./components";
+import { fetchRooms } from "./api";
 
 export function setupPicker(id) {
   const PICKER_CONFIG = {
     element: id,
+    autoApply: false,
+    grid: 2,
+    calendars: 2,
+    zIndex: 100,
     css: [
       "https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css",
       'https://easepick.com/css/demo_prices.css',
+      'https://easepick.com/css/demo_hotelcal.css',
     ],
-    plugins: [RangePlugin],
+    plugins: [RangePlugin, LockPlugin],
     RangePlugin: {
       tooltipNumber(num) {
         return num - 1;
@@ -20,9 +25,17 @@ export function setupPicker(id) {
         other: 'nights',
       },
     },
-    zIndex: 100,
+    LockPlugin: {
+      minDate: new Date(),
+      minDays: 2,
+      inseparable: true,
+      filter(date) {
+        const next = new Date(date.getTime() + 24 * 60 * 60 * 1000);
+        const fmtDate = next.toISOString().split('T')[0];
+        return !availabilities.get(fmtDate)
+      },
+    },
     setup(picker) {
-      // add price to day element
       picker.on('view', (evt) => {
         const { view, date, target } = evt.detail
         const d = date ? date.format('YYYY-MM-DD') : null
