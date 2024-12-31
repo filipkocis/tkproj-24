@@ -47,10 +47,26 @@ export function setupPicker(id) {
           if (dayData.price_position === "high") {
             span.style.color = "red"
           } else {
-            span.style.color = null
+            if (target.classList.contains('start') || target.classList.contains('end')) {
+              span.style.color = "white"
+            } else {
+              span.style.color = null
+            }
           }
         }
-      });
+      })
+
+      picker.on('select', (ext) => {
+        const { start, end } = ext.detail
+
+        fetchRooms(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'))
+          .then(updateRooms)
+
+        updateSelectedRange(
+          start.format("MMMM-D").replace(/-/g, ', '), 
+          end.format("MMMM-D").replace(/-/g, ', ')
+        )
+      })
     }
   }
 
