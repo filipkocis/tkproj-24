@@ -69,10 +69,19 @@ export function listComponent() {
 
 function roomComponent(room) {
   const img = room._embedded.pictures.at(0)?.offer_teaser_square
+  // where is the field in the api response? 
   const peopleNum = Math.floor(room.full_price / room.full_price_pp)
   const peopleText = peopleNum > 1 ? `${peopleNum} people` : `1 person`
 
-  console.log(room)
+  const parseAmenity = (amenity) => {
+    // limit to 3 to not stretch the card
+    const whitelisted = ['air-conditioning', 'hair-dryer', 'flat-tv']
+    if (!whitelisted.includes(amenity.name)) return null
+    return amenity.name.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+  }
+
+  const amenities = room._embedded.amenities.map(parseAmenity).filter(Boolean)
+
   return `
     <div class="grid grid-cols-[auto,1fr,auto] gap-4 p-3 border-4 border-black">
       <div>
@@ -82,7 +91,8 @@ function roomComponent(room) {
       <div class="flex flex-col gap-2">
         <h3 class="font-semibold text-2xl">${room.name}</h3> 
         <ul class="flex flex-col gap-1 items-start list-disc pl-5 [&>li]:text-[0.95rem]">
-          <li class="">${room.room_size_max} m<sup>2</sup></li>
+          <li>${room.room_size_max} m<sup>2</sup></li>
+          ${amenities.map(amenity => `<li>${amenity}</li>`).join('')}
         </ul>
       </div>
 
