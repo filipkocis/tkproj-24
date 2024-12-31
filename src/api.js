@@ -18,5 +18,7 @@ export const fetchHotelData = async () => {
  * Fetch hotel quotes for a given date range (format YYYY-MM-DD)
  */
 export const fetchRooms = async (start, end) => {
-  await fetch(`https://api.travelcircus.net/hotels/17080/quotes?locale=de_DE&checkin=${start}&checkout=${end}&party=%7B%22adults%22:2,%22children%22:[]%7D&domain=de`)
+  const res = await fetch(`https://api.travelcircus.net/hotels/17080/quotes?locale=de_DE&checkin=${start}&checkout=${end}&party=%7B%22adults%22:2,%22children%22:[]%7D&domain=de`)
+  const json = await res.json()
+  return json._embedded.hotel_quotes
 }
