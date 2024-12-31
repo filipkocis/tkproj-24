@@ -59,7 +59,7 @@ export function listComponent() {
   `
 
   return `
-    <div id="rooms" class="content-baseline grid gap-3 overflow-y-auto">
+    <div id="rooms" class="content-baseline p-1 grid gap-3 overflow-y-auto">
       ${defaultLoader} 
       ${defaultLoader} 
       ${defaultLoader} 
