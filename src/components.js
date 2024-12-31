@@ -50,19 +50,16 @@ export function topComponent() {
   `
 }
 
+const defaultCardLoader = `<div class="animate-pulse bg-blue-100 h-[208px]"></div>`
 /**
  * Returns HTML for the second grid component
  */
 export function listComponent() {
-  const defaultLoader = `
-    <div class="animate-pulse bg-blue-100 h-[208px]"></div>
-  `
-
   return `
     <div id="rooms" class="content-baseline p-1 grid gap-3 overflow-y-auto">
-      ${defaultLoader} 
-      ${defaultLoader} 
-      ${defaultLoader} 
+      ${defaultCardLoader} 
+      ${defaultCardLoader} 
+      ${defaultCardLoader} 
     </div>
   `
 }
@@ -107,6 +104,13 @@ function roomComponent(room) {
 export function updateSelectedRange(start, end) {
   const selectedRange = document.querySelector('#selected-range')
   selectedRange.innerHTML = `${start} <span class="font-bold px-1">to</span> ${end}`
+
+  const roomsEl = document.querySelector('#rooms')
+  const numRooms = roomsEl.children.length
+  roomsEl.innerHTML = ''
+  for (let i = 0; i < numRooms; i++) {
+    roomsEl.insertAdjacentHTML('beforeend', defaultCardLoader)
+  }
 }
 
 export function updateRooms(rooms) {
